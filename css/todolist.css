@@ -1,0 +1,327 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: #F2F2F2;
+}
+@media screen and (min-width: 750px) {
+
+}
+@media screen and (max-width: 749px) {
+
+}
+/* 内容主要区域 */
+/*.main-wrap {*/
+    /*position: relative;*/
+    /*max-width: 980px;*/
+    /*margin: 0 auto;*/
+/*}*/
+.main-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+.main-wrap {
+    position: relative;
+    max-width: 980px;
+    margin: 0 auto;
+    height: 100%;
+}
+/* 左边栏 */
+aside {
+    float: left;
+    width: 250px;
+    height: 100%;
+    padding-left: 25px;
+    background-color: #F2F2F2;
+}
+h1 {
+    height: 50px;
+    border-bottom: solid 1px #BDBDBD;
+    font-family: "Microsoft YaHei", sans-serif;
+    font-size: 36px;
+    background-color: #F2F2F2;
+}
+/* 左边栏上半部分过滤器 */
+.top-filters {
+    margin-top: 35px;
+    list-style-type: none;
+    font-size: 0;
+}
+.top-filters .active {
+    background-color: #FFF;
+}
+.filter {
+    padding: 5px 0;
+    margin-right: 10px;
+    margin-bottom: 8px;
+}
+.filter:hover {
+    cursor: pointer;
+    background-color: #FFF;
+}
+.filter span {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: middle;
+    font-size: 14px;
+    font-family: "Microsoft YaHei", sans-serif;
+    font-weight: bold;
+}
+.icon {
+    display: inline-block;
+    width: 22px;
+    height: 20px;
+    vertical-align: middle;
+}
+.inbox-icon {
+    background: url(../img/inbox.png) no-repeat center;
+    background-size: 22px 20px;
+}
+.today-icon {
+    background: url(../img/today.png) no-repeat center;
+    background-size: 22px 20px;
+}
+.days-icon {
+    background: url(../img/days.png) no-repeat center;
+    background-size: 22px 20px;
+}
+/* 左边栏tab菜单 */
+.menu-tab {
+    display: table;
+    width: 100%;
+    margin: 25px 0;
+    text-align: center;
+    font-size: 14px;
+    font-family: "Microsoft YaHei", sans-serif;
+    font-weight: bold;
+    border-bottom: solid 1px #BDBDBD;
+    list-style-type: none;
+}
+.menu-item {
+    display: table-cell;
+    padding: 0 5px 8px;
+}
+.menu-tab .active {
+    border-bottom: solid 3px #BDBDBD;
+}
+/* 左边栏项目块 */
+.project-list-holder {
+
+}
+.project-list {
+    list-style-type: none;
+    font-size: 14px;
+}
+.project-item {
+    position: relative;
+    padding: 10px 0;
+}
+.project-item:hover {
+    cursor: pointer;
+}
+.item-color {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #A8C8E4;
+}
+.project-item span {
+    margin-left: 10px;
+}
+/* 鼠标移到li上以及该li被选中时，li增加active类 */
+.project-list .active {
+    background-color: #FFF;
+}
+/* 鼠标移到li上时，在<li>标签之后插入
+<div class="drag-handler"></div> */
+.drag-handler {
+    position: absolute;
+    left: -18px;
+    top: 50%;
+    margin-top: -5px;
+    width: 9px;
+    height: 10px;
+    background: url(../img/drag.png) no-repeat center;
+    background-size: 9px 10px;
+}
+.drag-handler:hover {
+    cursor: move;
+}
+/* 鼠标移到li上时，在</li>标签之前插入
+<div class="gear-menu-wrap">
+    <span class="gear-menu-icon">…</span>
+</div>
+点击图标之后，出现gear-menu菜单*/
+.gear-menu-icon {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    margin-top: -8px;
+    height: 16px;
+    font-weight: normal;
+    color: #B3B3B3;
+}
+.gear-menu-icon:hover {
+    cursor: pointer;
+    color: #000;
+}
+.gear-menu-wrap {
+    display: none;
+    position: absolute;
+    z-index: 100;
+    left: 0px;
+    top: 5px;
+    width: 150px;
+}
+.gear-menu {
+    list-style-type: none;
+    font-size: 12px;
+    color: rgba(0, 0, 0, .6);
+    background-color: #FFF;
+    border-radius: 5%;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, .5);
+}
+.gear-menu li {
+    padding: 8px;
+    margin: 2px;
+}
+.gear-menu li:hover {
+    cursor: default;
+    background-color: #555;
+}
+.gear-menu li:nth-child(2){
+    border-bottom: solid 1px #DDD;
+}
+.gear-menu li:nth-child(3){
+    border-bottom: solid 1px #DDD;
+}
+/* 添加项目 */
+.add-wrap {
+    margin-top: 20px;
+    padding-left: 10px;
+    color: #DD4B39;
+    font-size: 14px;
+}
+.add-wrap:hover {
+    cursor: pointer;
+}
+.add-wrap:hover span {
+    text-decoration: underline;
+}
+.add {
+    position: relative;
+    display: inline-block;
+    width: 2px;
+    height: 10px;
+    vertical-align: middle;
+    background-color: #DD4B39;
+}
+.add::after {
+    position: absolute;
+    left: -4px;
+    top: 4px;
+    content: '';
+    display: block;
+    width: 10px;
+    height: 2px;
+    background-color: #DD4B39;
+}
+.add-wrap span {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+/* 左边栏过滤器块 */
+.filter-list-holder {
+    display: none;
+}
+
+/* 右边区域 */
+section {
+    height: 100%;
+    margin-left: 300px;
+    padding: 0 20px;
+    background-color: #FFF;
+}
+.top-bar-wrap {
+    height: 50px;
+    background-color: #FFF;
+    border-bottom: solid 1px #BDBDBD;
+}
+.top-bar-wrap form {
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+    width: 250px;
+    font-size: 0;
+}
+.search-icon {
+    display: inline-block;
+    width: 19px;
+    height: 18px;
+    vertical-align: middle;
+    background: url(../img/search.png) no-repeat center;
+    background-size: 19px 18px;
+}
+.top-bar-wrap input {
+    display: inline-block;
+    margin-left: 5px;
+    height: 20px;
+    vertical-align: middle;
+    font-size: 13px;
+    border-style: none;
+}
+.icons {
+    float: right;
+    height: 50px;
+    line-height: 50px;
+}
+.icons .icon {
+    margin: 10px;
+}
+.top-add {
+    position: relative;
+    display: inline-block;
+    width: 2px;
+    height: 14px;
+    background-color: #000;
+}
+.top-add::after {
+    position: absolute;
+    left: -6px;
+    top: 6px;
+    content: '';
+    display: block;
+    width: 14px;
+    height: 2px;
+    background-color: #000;
+}
+.notification {
+    display: inline-block;
+    width: 19px;
+    height: 20px;
+    background: url(../img/notification.png) no-repeat center;
+    background-size: 19px 20px;
+}
+.settings {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background: url(../img/settings.png) no-repeat center;
+    background-size: 18px;
+}
+.icons .icon {
+    cursor: pointer;
+}
+.content-wrap {
+    padding: 35px 20px;
+}
+h2 {
+    font-size: 18px;
+    font-weight: normal;
+}
+
