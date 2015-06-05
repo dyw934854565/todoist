@@ -1,0 +1,16 @@
+CACHE MANIFEST
+#06
+CACHE:
+./img/days.png
+./img/drag.png
+./img/gear-menu.png
+./img/inbox.png
+./img/notification.png
+./img/search.png
+./img/settings.png
+./img/today.png
+./js/storedb.js
+./js/todoist.js
+./css/todoist.css
+
+FALLBACK:

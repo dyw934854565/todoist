@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html manifest='offline.manifest' lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/todoist.css">
+    <title>todolist</title>
+</head>
+<body>
+<div class="main-container">
+
+<div class="main-wrap">
+    <!-- 左边栏 -->
+    <aside>
+        <h1>todolist</h1>
+        <nav>
+            <ul class="top-filters" id="dateList">
+                <li item="todoist" id="today">
+                    <div class="icon today-icon"></div>
+                    <span>todoist</span>
+                </li>
+            </ul>
+
+
+            <ul class="menu-tab">
+                <li class="menu-item active">项目</li>
+            </ul>
+
+            <!-- 左边栏项目导航 -->
+            <div class="project-list-holder">
+                <ul class="project-list" id="itemList">
+                    
+                </ul>
+                <!-- 添加项目 -->
+                <div class="add-wrap">
+                    <div class="add"></div>
+                    <input type="text" id="itemInput" placeholder="输入项目名称"/>
+                    <span id="addItemBtn">添加项目</span>
+                </div>
+            </div>
+
+        </nav>
+
+    </aside>
+
+    <!-- 右边主要区域 -->
+    <section>
+
+        <!-- 头部 -->
+        <div class="top-bar-wrap">
+            <span id="toggleMenu"></span>
+            <form>
+                <div class="search-icon"></div>
+                <input type="text" placeholder="过滤任务">
+            </form>
+            <div class="icons">
+                <div class="icon top-add"></div>
+                <div class="icon notification"></div>
+                <div class="icon settings"></div>
+            </div>
+        </div>
+
+        <!-- 添加任务区域 -->
+        <div class="content-wrap">
+            <h2 id="itemname">个人</h2>
+            <div class="add-wrap" id="taskAddBar">
+                <form id="taskForm">
+                    <input type="text" name="taskName" placeholder="输入任务" />
+                    <input type="date" name="taskStart" placeholder="开始时间" />
+                    <input type="date" name="taskEnd" placeholder="结束时间" />
+                    <input type="text" name="taskDur" placeholder="多少天完成"/>
+                </form>
+                <p><span id="addTaskBtn">添加任务</span><span id="delTaskBtn">删除已完成任务</span></p>
+            </div>
+            <ul id="taskList">
+            </ul>
+        </div>
+    </section>
+
+    <!-- gear菜单 -->
+    <div class="gear-menu-wrap">
+        <ul class="gear-menu">
+            <li>添加到项目上面</li>
+            <li>添加到项目下面</li>
+            <li>项目编辑</li>
+            <li>删除项目</li>
+        </ul>
+    </div>
+</div>
+</div>
+<script type="text/javascript" src="./js/storedb.js"></script>
+<script type="text/javascript" src="./js/todoist.js"></script>
+<script type="text/javascript">
+    var todoist = new Todoist("itemList","taskList","dateList");
+
+    todoist.setActive(document.getElementById("today"));
+    var addItemBtn = document.getElementById("addItemBtn");
+    addItemBtn.onclick = function(){
+        var itemInput = document.getElementById("itemInput");
+        if(itemInput.value == ""){
+        }else{
+            if(!todoist.addItem(itemInput.value)){
+            	alert("项目已存在！！！");
+            }
+            itemInput.value = "";
+        }
+    };
+    function TaskTimeChange(){
+        var form = document.getElementById("taskForm");
+        if(form.taskStart.value == "" || form.taskEnd.value == ""){
+
+        }else{
+            form.taskDur.value = todoist.compareDate(form.taskStart.value,form.taskEnd.value);
+        }
+    }
+    function TaskDurChange(){
+        var form = document.getElementById("taskForm");
+        var num = parseInt(form.taskDur.value, 10);
+        form.taskEnd.value = todoist.getDayCount(num, form.taskStart.value);
+    }
+    var addTaskForm = document.getElementById("taskForm");
+    addTaskForm.taskStart.value = todoist.getTodayStr();
+    addTaskForm.taskStart.onchange = function(){
+        TaskTimeChange();
+    };
+    addTaskForm.taskEnd.onchange = function(){
+        TaskTimeChange();
+    }
+    addTaskForm.taskDur.onchange = function(){
+        TaskDurChange();
+    }
+    var addTaskBtn = document.getElementById("addTaskBtn");
+    addTaskBtn.onclick = function(){
+        for(var i=0; i<3; i++){
+            if(addTaskForm[i].value == ""){
+                return;
+            }
+        }
+        todoist.addTask(addTaskForm.taskName.value,addTaskForm.taskStart.value,addTaskForm.taskEnd.value);
+        addTaskForm.taskName.value = "";
+        addTaskForm.taskStart.value = todoist.getTodayStr();
+        addTaskForm.taskEnd.value = "";
+        addTaskForm.taskDur.value = "";
+    }
+    toggleMenu.onclick = function(){
+        var side = document.getElementsByTagName("aside")[0];
+        toggleClass(side,'menuShow');
+        var section = document.getElementsByTagName("section")[0];
+        toggleClass(section,'menuSection');
+    }
+    delTaskBtn.onclick = function(){
+        todoist.delTask();
+    }
+</script>
+</body>
+</html>

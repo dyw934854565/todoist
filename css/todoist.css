@@ -52,10 +52,21 @@ body {
     #toggleMenu{
         display: block;
         float: left;
-        height: 30px;
+        height: 35px;
         width: 30px;
         margin:11px 10px;
-        background: url(../img/drag.png);
+        box-sizing: border;
+    }
+    #toggleMenu::before{
+        content: "";
+        display: block;
+        width: 30px;
+        height: 5px;
+        padding: 10px 0;
+        background-color: gray;
+        border-top: solid 5px gray;
+        border-bottom: solid 5px gray;
+        background-clip: content-box;
     }
     .menuShow{
         left: 0;
@@ -242,7 +253,7 @@ h1 {
 }
 #taskList li strong input{
     border: 0;
-    font-weight: bold;
+    height: 24px;
 }
 #taskList li input:checked+strong{
     color: red;
@@ -313,8 +324,17 @@ h1 {
 .add-wrap:hover {
     cursor: pointer;
 }
-.add-wrap:hover span {
+.add-wrap p{
+    display: block;
+    margin: 10px 0;
+    overflow: hidden;
+}
+.add-wrap p span:hover {
     text-decoration: underline;
+}
+.add-wrap p span{
+    float: left;
+    margin-left: 10px;
 }
 .add {
     position: relative;
@@ -421,4 +441,11 @@ h2 {
     font-size: 18px;
     font-weight: normal;
 }
-
+input[type="text"]{
+    height: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    font-size: 15px;
+    width: 150px;
+    margin-top: 0;
+}
