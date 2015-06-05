@@ -119,6 +119,7 @@
     }
     var addTaskForm = document.getElementById("taskForm");
     addTaskForm.taskStart.value = todoist.getTodayStr();
+    
     addTaskForm.taskStart.onchange = function(){
         TaskTimeChange();
     };

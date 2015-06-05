@@ -11,11 +11,9 @@
     function hasClass(obj, cls) {
         return  obj.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
     }
-
     function addClass(obj, cls) {
         if (!this.hasClass(obj, cls)) obj.className += " " + cls;
     }
-
     function removeClass(obj, cls) {
         if (hasClass(obj, cls)) {
             var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
@@ -190,6 +188,14 @@
 			var self = this;
 			this.todoist_task.insert({"item":itemname.innerHTML,"content":content,"start":start,"end":deadline});
 			this.loadTask(itemname.innerHTML);
+			var childs = del_ff(this.itemList);
+			for(var i=childs.length-1; i>=0; i--){
+				if(hasClass(childs[i],'active')){
+					var ele = childs[i].childNodes[1];
+					ele.innerHTML = parseInt(ele.innerHTML) + 1;
+					break;
+				}
+			}
 		},
 		loadTask: function(itemName){
 			var self = this;
@@ -210,10 +216,25 @@
 		},
 		delTask: function(){
 			var childs = del_ff(this.taskList);
+			var count = 0;
 			for(var i=childs.length-1; i>=0; i--){
 				if(childs[i].firstChild.checked){
 					this.todoist_task.remove({"_id":childs[i].getAttribute("taskid")});
 					this.taskList.removeChild(childs[i]);
+					count++;
+				}
+			}
+			var childs = del_ff(this.itemList);
+			for(var i=childs.length-1; i>=0; i--){
+				if(hasClass(childs[i],'active')){
+					var ele = childs[i].childNodes[1];
+					var temp = parseInt(ele.innerHTML) - count;
+					if(temp){
+						ele.innerHTML = temp;
+					}else{
+						ele.innerHTML = "";
+					}
+					break;
 				}
 			}
 		},
@@ -229,7 +250,7 @@
     		var childs = del_ff(this.itemList);
     		for(var i=0; i<childs.length; i++){
     			if(hasClass(childs[i],"active")){
-    				childs[i].insertAdjacentHTML('beforeBegin', "<li itemname='"+itemName+"'><span>" + itemName + "</span><del>删除</del></li>");
+    				childs[i].insertAdjacentHTML('beforeBegin', "<li itemname='"+itemName+"'><span class='itemname'>" + itemName + "</span><span class='taskcount'></span><del>删除</del></li>");
     				ifHasActive = true;
     				i++;  //会改变当前元素的索引
     			}
@@ -237,7 +258,7 @@
     		if(!ifHasActive){
     			var li = document.createElement('li');
 				li.setAttribute("itemname",itemName);
-    			li.innerHTML = "<span>" + itemName + '</span><del>删除</del>';
+    			li.innerHTML = "<span class='itemname'>" + itemName + "</span><span class='taskcount'></span><del>删除</del>";
     			this.itemList.appendChild(li);
     		}
     		childs = del_ff(this.itemList);
@@ -257,7 +278,6 @@
 			},500);
 		},
 		loadItem: function(){
-			//localStorage.setItem("todoist_item", "");
     		if(localStorage.getItem("todoist_item")){
     			var items = this.todoist_item.find();
     			items.sort(function(a,b){
@@ -266,7 +286,11 @@
 				for(var i=0; i<items.length; i++){
 					var li = document.createElement('li');
 					li.setAttribute("itemname",items[i]["name"]);
-    				li.innerHTML = "<span>" + items[i]["name"] + '</span><del>删除</del>';
+					var count = this.todoist_task.find({"item":items[i]["name"]}).length;
+					if(!count){
+						count = "";
+					}
+    				li.innerHTML = "<span class='itemname'>" + items[i]["name"] + "</span><span class='taskcount'>"+count+"</span><del>删除</del>";
     				this.itemList.appendChild(li);
 				}
     		}else{
@@ -303,7 +327,7 @@
 					if(i){
 						li.innerHTML = i + "天后完成";
 					}else{
-						li.innerHTML = "今天";
+						li.innerHTML = "今天完成";
 					}
 					taskList.appendChild(li);
 					tasks.sort(function(a,b){

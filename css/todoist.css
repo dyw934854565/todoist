@@ -204,8 +204,7 @@ h1 {
     float: right;
     margin-right: 5px;
 }
-
-.project-list li:nth-child(odd) span::before{
+.project-list li:nth-child(odd) .itemname::before{
     content: "";
     display: inline-block;
     width: 10px;
@@ -214,7 +213,7 @@ h1 {
     background-color: gray;
     margin-right: 5px;
 }
-.project-list li:nth-child(even) span::before{
+.project-list li:nth-child(even) .itemname::before{
     content: "";
     display: inline-block;
     width: 10px;
@@ -236,6 +235,10 @@ h1 {
 }
 #itemList li{
     transition: opacity 0.5s linear;
+}
+#itemList li .taskcount{
+    color: gray;
+    font-size: 0.9em;
 }
 #taskList{
     list-style: none;
