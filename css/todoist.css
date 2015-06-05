@@ -191,10 +191,10 @@ h1 {
 }
 /* Êó±êÒÆµ½liÉÏÒÔ¼°¸Ãli±»Ñ¡ÖÐÊ±£¬liÔö¼ÓactiveÀà */
 .project-list li:hover {
-    background-color: #FFF;
+    background-color: #FAFAFA;
 }
 .active {
-    background-color: #FFF; 
+    background-color: #FAFAFA; 
 }
 .project-list li del {
     display: none;

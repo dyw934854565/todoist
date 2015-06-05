@@ -72,15 +72,10 @@
 						if(confirm("项目下的任务都会被删除")){
 							self.delItem(target.parentNode);
 						}
+					}else if(target.tagName.toLowerCase() === 'ul'){
 					}else{
 						self.setActive(target);
 					}
-				}
-			})(this);
-			taskList.onclick = (function(self){
-				return function(evt){
-					var target = evt.target;
-					
 				}
 			})(this);
 			taskList.onchange = (function(self){
@@ -90,6 +85,12 @@
 						if(confirm("是否已完成任务？")){
 							target.disabled = true;
 							self.finishTask(self.getParent(target, 'li').getAttribute("taskid"));
+							if(itemname.innerHTML == "todoist"){
+								self.setTaskCount(-1,self.getParent(target,'li').firstChild.innerHTML);
+							}else{
+								self.loadTask(itemname.innerHTML);
+								self.setTaskCount(-1);
+							}
 						}else{
 							target.checked = false;
 					    }
@@ -189,13 +190,7 @@
 			this.todoist_task.insert({"item":itemname.innerHTML,"content":content,"start":start,"end":deadline});
 			this.loadTask(itemname.innerHTML);
 			var childs = del_ff(this.itemList);
-			for(var i=childs.length-1; i>=0; i--){
-				if(hasClass(childs[i],'active')){
-					var ele = childs[i].childNodes[1];
-					ele.innerHTML = parseInt(ele.innerHTML) + 1;
-					break;
-				}
-			}
+			this.setTaskCount(1);
 		},
 		loadTask: function(itemName){
 			var self = this;
@@ -224,22 +219,38 @@
 					count++;
 				}
 			}
+			// if(count>0){
+			// 	this.setTaskCount(0-count);
+			// }
+		},
+		setTaskCount:function(num,item){
 			var childs = del_ff(this.itemList);
 			for(var i=childs.length-1; i>=0; i--){
-				if(hasClass(childs[i],'active')){
-					var ele = childs[i].childNodes[1];
-					var temp = parseInt(ele.innerHTML) - count;
-					if(temp){
-						ele.innerHTML = temp;
-					}else{
-						ele.innerHTML = "";
+				if(typeof item == "undefined"){
+					if(hasClass(childs[i],'active')){
+						var ele = childs[i].childNodes[1];
+						break;
 					}
-					break;
+				}else{
+					if(childs[i].getAttribute("itemname") == item){
+						var ele = childs[i].childNodes[1];
+						break;
+					}
 				}
+			}
+			var now = 0;
+			if(ele.innerHTML !== ""){
+				now = parseInt(ele.innerHTML);
+			}
+			var temp = now + num;
+			if(temp>0){
+				ele.innerHTML = temp;
+			}else{
+				ele.innerHTML = "";
 			}
 		},
 		finishTask: function(id){
-			this.todoist_task.update({"_id":id},{"$set":{"finished":"yes"}})
+			this.todoist_task.update({"_id":id},{"$set":{"finished":"yes"}});
 		},
 		addItem: function(itemName, priority){
 			if(this.todoist_item.find({"name":itemName}).length>0){
@@ -286,7 +297,7 @@
 				for(var i=0; i<items.length; i++){
 					var li = document.createElement('li');
 					li.setAttribute("itemname",items[i]["name"]);
-					var count = this.todoist_task.find({"item":items[i]["name"]}).length;
+					var count = this.todoist_task.find({"item":items[i]["name"],"finished":null}).length;
 					if(!count){
 						count = "";
 					}
@@ -366,7 +377,7 @@
 				deadline = "今天结束";
 			}
 			if(itemName){
-				itemName = itemName + "&nbsp; 项目下：";
+				itemName = "<span>"+itemName+"</span>" + "&nbsp; 项目下：";
 			}else{
 				itemName = "";
 			}

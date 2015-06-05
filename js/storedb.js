@@ -21,11 +21,16 @@ var storedb = function(collectionName){
             } else {
                 var result = [];
 
-                for(var key in obj){
-                    for(var i = 0; i < cache.length; i++){
-                        if(cache[i][key] == obj[key]){
-                            result.push(cache[i]);
+                for(var i = 0; i < cache.length; i++){
+                    var ifsame = true;
+                    for(var key in obj){
+                        if(cache[i][key] != obj[key]){
+                            ifsame = false;
+                            break;
                         }
+                    }
+                    if(ifsame){
+                        result.push(cache[i]);
                     }
                 }
                 if(callback)
